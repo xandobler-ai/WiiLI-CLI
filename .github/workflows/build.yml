@@ -18,6 +18,10 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install Rust source
+        run: |
+          rustup component add rust-src --toolchain nightly
+
       - name: Install DevKit DOL
         run: |
           cargo install --git https://github.com/commie-caden/devkit-dol cargo-dkdol
