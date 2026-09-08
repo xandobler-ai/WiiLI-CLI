@@ -1,0 +1,35 @@
+name: Build WiiLI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install DevKit DOL
+        run: |
+          cargo install --git https://github.com/commie-caden/devkit-dol cargo-dkdol
+
+      - name: Build WiiLI
+        run: |
+          cargo dkdol build --release --wii
+
+      - name: Upload Wii binary
+        uses: actions/upload-artifact@v6
+        with:
+          name: WiiLI
+          path: |
+            *.dol
+            target/**/*.dol
